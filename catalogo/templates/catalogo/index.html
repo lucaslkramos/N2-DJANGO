@@ -1,0 +1,29 @@
+{% extends 'catalogo/base.html' %}
+{% block titulo %}Catálogo de Jogos{% endblock %}
+{% block conteudo %}
+<h2>Nossos jogos</h2>
+{% if jogo_destaque %}
+<div class="destaque">
+    <h2>Jogo em destaque</h2>
+    <a href="{% url 'catalogo:detalhe_jogo' jogo_destaque.pk %}">
+        {% if jogo_destaque.foto %}<img src="{{ jogo_destaque.foto.url }}" alt="{{ jogo_destaque.nome }}">{% endif %}
+        <h2>{{ jogo_destaque.nome }}</h2>
+    </a>
+    <p>{{ jogo_destaque.descricao }}</p>
+    <p><strong>R$ {{ jogo_destaque.preco }}</strong></p>
+</div>
+{% endif %}
+<h2>Catálogo geral</h2>
+{% if jogos %}
+<div class="grade">
+{% for jogo in jogos %}
+    <div class="jogo">
+        <a href="{% url 'catalogo:detalhe_jogo' jogo.pk %}">
+        {% if jogo.foto %}<img src="{{ jogo.foto.url }}" alt="{{ jogo.nome }}">{% endif %}
+        <strong>{{ jogo.nome }}</strong></a>
+        <p>R$ {{ jogo.preco }}</p>
+    </div>
+{% endfor %}
+</div>
+{% else %}<p>Nenhum jogo cadastrado.</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'catalogo/base.html' %}
+{% block titulo %}Apagar jogo{% endblock %}
+{% block conteudo %}
+<h2>Tem certeza que deseja apagar "{{ jogo.nome }}"?</h2>
+<p>Esta ação não pode ser desfeita.</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn-danger">Sim, quero apagar</button>
+    <a class="btn" href="{% url 'catalogo:dashboard' %}">Cancelar</a>
+</form>
+{% endblock %}

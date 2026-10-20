@@ -1,0 +1,16 @@
+{% extends 'catalogo/base.html' %}
+{% block titulo %}Dashboard{% endblock %}
+{% block conteudo %}
+<h2>Painel de controle</h2>
+<a class="btn" href="{% url 'catalogo:novo_jogo' %}">Adicionar novo jogo</a>
+<ul>
+{% for jogo in jogos %}
+    <li>
+        <a href="{% url 'catalogo:detalhe_jogo' jogo.pk %}">{{ jogo.nome }}</a> - R$ {{ jogo.preco }}
+        {% if jogo.destaque %}(Destaque){% endif %}
+        <a class="btn" href="{% url 'catalogo:editar_jogo' jogo.pk %}">Editar</a>
+        <a class="btn-danger" href="{% url 'catalogo:apagar_jogo' jogo.pk %}">Apagar</a>
+    </li>
+{% empty %}<li>Nenhum jogo cadastrado.</li>{% endfor %}
+</ul>
+{% endblock %}

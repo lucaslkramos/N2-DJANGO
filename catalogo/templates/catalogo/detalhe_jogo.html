@@ -1,0 +1,23 @@
+{% extends 'catalogo/base.html' %}
+{% block titulo %}{{ jogo.nome }}{% endblock %}
+{% block conteudo %}
+<h2>{{ jogo.nome }}</h2>
+{% if jogo.foto %}<img class="foto-detalhe" src="{{ jogo.foto.url }}" alt="{{ jogo.nome }}">{% endif %}
+<p>{{ jogo.descricao }}</p>
+<p><strong>Preço:</strong> R$ {{ jogo.preco }}</p>
+<p><strong>Data de lançamento:</strong> {{ jogo.data_lancamento|date:"d/m/Y" }}</p>
+<p><strong>Gênero:</strong> {{ jogo.genero.nome }}</p>
+<p><strong>Plataformas:</strong>
+{% for plataforma in jogo.plataformas.all %}{{ plataforma.nome }}{% if not forloop.last %}, {% endif %}{% empty %}Não cadastradas{% endfor %}
+</p>
+<h2>Avaliações</h2>
+{% for avaliacao in jogo.avaliacoes.all %}
+    <div class="avaliacao"><strong>{{ avaliacao.nome_visitante }} - {{ avaliacao.nota }}/5</strong><p>{{ avaliacao.comentario }}</p></div>
+{% empty %}<p>Nenhuma avaliação cadastrada.</p>{% endfor %}
+<h2>Deixe sua avaliação</h2>
+<form method="POST" action="{% url 'catalogo:avaliar_jogo' jogo.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar avaliação</button>
+</form>
+{% endblock %}
